@@ -1,9 +1,17 @@
 // Grab Ui elements and set var
-const title = document.title;
+document.getElementById('loan-form').addEventListener('submit', function (e) {
+  //show loader
+  document.getElementById('loading').style.display = 'block';
+  // hide results
+  document.getElementById('results').style.display = 'none';
 
-document.getElementById('loan-form').addEventListener('submit', calculateResults);
+  // calculate results
+  // calculateResults();
+  setTimeout(calculateResults, 2000);
+  e.preventDefault();
+});
 // calculate the results function
-function calculateResults(e) {
+function calculateResults() {
   console.log('clicked');
   //console.log('clicked');
   const amount = document.getElementById('amount');
@@ -28,25 +36,24 @@ function calculateResults(e) {
     monthlyPayment.value = monthly.toFixed(2);
     totalPayment.value = (monthly * calculatedPayments).toFixed(2);
     totalInterest.value = (monthly * calculatedPayments - principal).toFixed(2);
-
-    // monthlyPayment.value = monthly.toFixed(2);
-    // totalPayment.value = (monthly * calculatedPayments).toFixed(2);
-    // totalInterest.value = (monthly * calculatedPayments - principal).toFixed(2);
-    // title = monthlyPayment.value;
-    // console.log(title);
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
   } else {
     showError('Please check your numbers.');
   }
-  e.preventDefault();
 }
 function showError(error) {
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('loading').style.display = 'none';
+
+  const card = document.querySelector('.card');
+  const heading = document.querySelector('.heading');
   const errorDiv = document.createElement('div');
   errorDiv.className = 'alert alert-danger';
   errorDiv.appendChild(document.createTextNode(error));
-  const card = document.querySelector('.card');
-  const heading = document.querySelector('.heading');
 
   card.insertBefore(errorDiv, heading);
+
   setTimeout(clearError, 2500);
 }
 function clearError() {
